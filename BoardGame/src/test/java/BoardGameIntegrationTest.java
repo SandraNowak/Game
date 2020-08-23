@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -34,7 +36,7 @@ public class BoardGameIntegrationTest {
 
         //Assert
         Assert.assertEquals(pawnPosition.getX() , 0);
-        Assert.assertEquals(pawnPosition.getY() , -2);
+        Assert.assertEquals(pawnPosition.getY() , 2);
         Assert.assertEquals(pawnPosition.getDirection() , Direction.SOUTH);
 
     }
@@ -72,7 +74,7 @@ public class BoardGameIntegrationTest {
 
         //Assert
         Assert.assertEquals(pawnPosition.getX() , 2);
-        Assert.assertEquals(pawnPosition.getY() , -1);
+        Assert.assertEquals(pawnPosition.getY() , 1);
         Assert.assertEquals(pawnPosition.getDirection() , Direction.SOUTH);
 
     }
@@ -82,10 +84,10 @@ public class BoardGameIntegrationTest {
         //Assign
         Game game = new Game();
         PawnPosition pawnPosition = new PawnPosition();
-        ObstaclePosition obstaclePosition =  new ObstaclePosition();
-        obstaclePosition.setPositionX(0);
-        obstaclePosition.setPositionY(-2);
-        game.setObstacklePosition(obstaclePosition);
+        ArrayList<ObstaclePosition> forbidenArrea = new ArrayList();
+        forbidenArrea.add(new ObstaclePosition(0,2));
+        game.setForbidenArrea(forbidenArrea);
+
 
 
         //Act
@@ -94,7 +96,7 @@ public class BoardGameIntegrationTest {
 
         //Assert
         Assert.assertEquals(pawnPosition.getX(),0);
-        Assert.assertEquals(pawnPosition.getY(), -1);
+        Assert.assertEquals(pawnPosition.getY(), 1);
         Assert.assertEquals(pawnPosition.getDirection(), Direction.SOUTH);
     }
 
@@ -121,16 +123,14 @@ public class BoardGameIntegrationTest {
     @Test
     public void ShouldMoveWhenOffObstacleWhenOnObstacle(){
         //Assign
+
         Game game = new Game();
-        PawnPosition pawnPosition = new PawnPosition();
         Board board = new Board(10,10);
         game.setBoard(board);
-
-        ObstaclePosition obstaclePosition =  new ObstaclePosition();
-        obstaclePosition.setPositionX(0);
-        obstaclePosition.setPositionY(0);
-        game.setObstacklePosition(obstaclePosition);
-
+        PawnPosition pawnPosition = new PawnPosition();
+        ArrayList<ObstaclePosition> forbidenArrea = new ArrayList();
+        forbidenArrea.add(new ObstaclePosition(0,0));
+        game.setForbidenArrea(forbidenArrea);
         //Act
 
         pawnPosition = game.move("RMMMMMMMMMM");
