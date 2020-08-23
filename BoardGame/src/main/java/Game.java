@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Game {
 
     public Game() {
@@ -38,18 +40,34 @@ public class Game {
         return pawnPosition;
     }
 
+    ArrayList<ObstaclePosition> forbidenArrea = new ArrayList();
+
+    private boolean ForbidenPawnPosition(PawnPosition pp){
+        for(ObstaclePosition op:forbidenArrea) {
+            if (op.getPositionX() == pp.getX() && op.getPositionY() == pp.getY()) return true;
+        } return false;
+    }
+
+
     private void movePawn() {
-        if (!canIMakeMove()) {
-            return;
+        PawnPosition temporaryPawnPosition = new PawnPosition();
+        temporaryPawnPosition.setX(pawnPosition.getX());
+        temporaryPawnPosition.setY(pawnPosition.getY());
+        temporaryPawnPosition.setDirection(pawnPosition.getDirection());
+
+        if (temporaryPawnPosition.getDirection() == Direction.NORTH) {
+            temporaryPawnPosition.setY(temporaryPawnPosition.getY() + 1);
+        } else if (temporaryPawnPosition.getDirection() == Direction.SOUTH) {
+            temporaryPawnPosition.setY(temporaryPawnPosition.getY() - 1);
+        } else if (temporaryPawnPosition.getDirection() == Direction.WEST) {
+            temporaryPawnPosition.setX(temporaryPawnPosition.getX() - 1);
+        } else if (temporaryPawnPosition.getDirection() == Direction.EAST) {
+            temporaryPawnPosition.setX(temporaryPawnPosition.getX() + 1);
         }
-        if (pawnPosition.getDirection() == Direction.NORTH) {
-            pawnPosition.setY(pawnPosition.getY() + 1);
-        } else if (pawnPosition.getDirection() == Direction.SOUTH) {
-            pawnPosition.setY(pawnPosition.getY() - 1);
-        } else if (pawnPosition.getDirection() == Direction.WEST) {
-            pawnPosition.setX(pawnPosition.getX() - 1);
-        } else if (pawnPosition.getDirection() == Direction.EAST) {
-            pawnPosition.setX(pawnPosition.getX() + 1);
+        if (!ForbidenPawnPosition(temporaryPawnPosition)){
+            pawnPosition.setX(temporaryPawnPosition.getX());
+            pawnPosition.setY(temporaryPawnPosition.getY());
+            pawnPosition.setDirection(temporaryPawnPosition.getDirection());
         }
     }
 
@@ -85,51 +103,5 @@ public class Game {
         return ch;
     }
 
-    private boolean canIMakeMove() {
-        if (pawnPosition.getDirection() == Direction.NORTH) {
-            return canIMakeMoveNorthDirection();
-        }
-        if (pawnPosition.getDirection() == Direction.WEST) {
-            return canIMakeMoveWestDirection();
-        }
-        if (pawnPosition.getDirection() == Direction.EAST) {
-            return canIMakeMoveEastDirection();
-        }
-        if (pawnPosition.getDirection() == Direction.SOUTH) {
-            return canIMakeMoveSouthDirection();
-        }
-        return true;
-    }
 
-    private boolean canIMakeMoveNorthDirection() {
-        if (pawnPosition.getX() == 0 & pawnPosition.getY() == 0) return false;
-        if (pawnPosition.getX() == board.getSizeX() - 1 & pawnPosition.getY() == 0) return false;
-        if (pawnPosition.getY() == obstacklePosition.getPositionY() - 1) return false;
-
-        return true;
-    }
-
-    private boolean canIMakeMoveEastDirection() {
-        if ((pawnPosition.getX() == board.getSizeX() - 1) & pawnPosition.getY() == 0) return false;
-        if (pawnPosition.getX() == board.getSizeX() - 1 & pawnPosition.getY() == board.getSizeY() - 1) return false;
-        if (obstacklePosition != null && pawnPosition.getX() == obstacklePosition.getPositionX() + 1) return false;
-
-        return true;
-    }
-
-    private boolean canIMakeMoveSouthDirection() {
-        if (pawnPosition.getX() == 0 & pawnPosition.getY() == board.getSizeY() - 1) return false;
-        if (pawnPosition.getX() == board.getSizeX() - 1 & pawnPosition.getY() == board.getSizeY() - 1) return false;
-        if (obstacklePosition != null && pawnPosition.getY() == obstacklePosition.getPositionY() + 1) return false;
-
-        return true;
-    }
-
-    private boolean canIMakeMoveWestDirection() {
-        if (pawnPosition.getX() == 0 & pawnPosition.getY() == 0) return false;
-        if (pawnPosition.getX() == 0 & pawnPosition.getY() == board.getSizeY() - 1) return false;
-        if (obstacklePosition != null && pawnPosition.getX() == obstacklePosition.getPositionX() - 1) return false;
-
-        return true;
-    }
 }
