@@ -9,17 +9,13 @@ public class Game {
     }
 
     PawnPosition pawnPosition = new PawnPosition();
-    ObstaclePosition obstacklePosition = null;
     Board board = new Board(10, 10);
 
     public void setBoard(Board board) {
         this.board = board;
     }
 
-    public void setObstacklePosition(ObstaclePosition obstacklePosition) {
-        this.obstacklePosition = obstacklePosition;
 
-    }
 
     public PawnPosition move(String comand) {
         char[] com = convertToCharArray(comand);
@@ -40,12 +36,23 @@ public class Game {
         return pawnPosition;
     }
 
+    public ArrayList<ObstaclePosition> getForbidenArrea() {
+        return forbidenArrea;
+    }
+
+    public void setForbidenArrea(ArrayList<ObstaclePosition> forbidenArrea) {
+        this.forbidenArrea = forbidenArrea;
+    }
+
     ArrayList<ObstaclePosition> forbidenArrea = new ArrayList();
 
     private boolean ForbidenPawnPosition(PawnPosition pp){
+        if(pp.getX()<0 ||   pp.getX() >= board.getSizeX()
+                || pp.getY()<0 ||   pp.getY()>=board.getSizeY()) return true;
         for(ObstaclePosition op:forbidenArrea) {
             if (op.getPositionX() == pp.getX() && op.getPositionY() == pp.getY()) return true;
-        } return false;
+        }
+        return false;
     }
 
 
@@ -56,9 +63,9 @@ public class Game {
         temporaryPawnPosition.setDirection(pawnPosition.getDirection());
 
         if (temporaryPawnPosition.getDirection() == Direction.NORTH) {
-            temporaryPawnPosition.setY(temporaryPawnPosition.getY() + 1);
-        } else if (temporaryPawnPosition.getDirection() == Direction.SOUTH) {
             temporaryPawnPosition.setY(temporaryPawnPosition.getY() - 1);
+        } else if (temporaryPawnPosition.getDirection() == Direction.SOUTH) {
+            temporaryPawnPosition.setY(temporaryPawnPosition.getY() + 1);
         } else if (temporaryPawnPosition.getDirection() == Direction.WEST) {
             temporaryPawnPosition.setX(temporaryPawnPosition.getX() - 1);
         } else if (temporaryPawnPosition.getDirection() == Direction.EAST) {
