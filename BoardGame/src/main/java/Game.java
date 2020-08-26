@@ -53,7 +53,19 @@ public class Game {
             if (op.getPositionX() == pp.getX() && op.getPositionY() == pp.getY()) return true;
         }
         return false;
+
     }
+
+    private boolean ForbidenPawnPositionUsingStreams(PawnPosition pp){
+        if(pp.getX()<0 ||   pp.getX() >= board.getSizeX()
+                || pp.getY()<0 ||   pp.getY()>=board.getSizeY()) return true;
+
+        return forbidenArrea.stream()
+                .anyMatch(o ->o.getPositionX()==pp.getX()&& o.getPositionY()==pp.getY());
+
+    }
+
+
 
 
     private void movePawn() {
@@ -71,7 +83,7 @@ public class Game {
         } else if (temporaryPawnPosition.getDirection() == Direction.EAST) {
             temporaryPawnPosition.setX(temporaryPawnPosition.getX() + 1);
         }
-        if (!ForbidenPawnPosition(temporaryPawnPosition)){
+        if (!ForbidenPawnPositionUsingStreams(temporaryPawnPosition)){
             pawnPosition.setX(temporaryPawnPosition.getX());
             pawnPosition.setY(temporaryPawnPosition.getY());
             pawnPosition.setDirection(temporaryPawnPosition.getDirection());

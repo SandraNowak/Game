@@ -142,4 +142,28 @@ public class BoardGameIntegrationTest {
 
     }
 
+
+    @Test
+    public void ShouldMoveWhenAreTwoObstacle(){
+        //Assign
+
+        Game game = new Game();
+        Board board = new Board(10,10);
+        game.setBoard(board);
+        PawnPosition pawnPosition = new PawnPosition();
+        ArrayList<ObstaclePosition> forbidenArrea = new ArrayList();
+        forbidenArrea.add(new ObstaclePosition(1,1));
+        forbidenArrea.add(new ObstaclePosition(3,7));
+        game.setForbidenArrea(forbidenArrea);
+        //Act
+
+        pawnPosition = game.move("RMRMLMMRMMMMMMMM");
+
+        //Assert
+        Assert.assertEquals(pawnPosition.getX(),3);
+        Assert.assertEquals(pawnPosition.getY(), 6);
+        Assert.assertEquals(pawnPosition.getDirection(), Direction.SOUTH);
+
+    }
+
 }
